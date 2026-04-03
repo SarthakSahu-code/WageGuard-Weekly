@@ -49,6 +49,8 @@ This project is optimized for GitHub Codespaces. To spin up the full architectur
 Ensure PostgreSQL is installed and the `postgres` user is set up. Initialize the schema:
 ```bash
 cd backend
+sudo service postgresql start
+node initDb.js
 node initDb.js
 ```
 ### 2. The AI Microservice (Python/FastAPI)
@@ -62,8 +64,6 @@ uvicorn main:app --reload --port 8000
 Start the Express server on Port 5000:
 ```bash
 cd backend
-sudo service postgresql start
-node initDb.js
 node server.js
 ```
 ### 4. The React Frontend
