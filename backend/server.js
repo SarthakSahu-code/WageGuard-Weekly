@@ -35,16 +35,43 @@ app.post('/api/onboard', async (req, res) => {
     }
 });
 
-// 2. Parametric Trigger (The Automated Claim)
+// 2. Parametric Trigger (The Automated Claim) - Upgraded for Phase 2
 app.post('/api/trigger', async (req, res) => {
     const { partner_id, event_type } = req.body;
+    
     try {
-        const payoutAmount = 1000.00; // Fixed payout for income loss
+        let payoutAmount = 0;
+        let validationMessage = "";
+
+        // The 3 Required Triggers (Income Loss Only)
+        switch(event_type) {
+            case "Severe Flooding":
+                payoutAmount = 1500.00; // 2 days lost wages
+                validationMessage = "Weather API confirmed localized flooding. Deliveries halted.";
+                break;
+            case "Extreme Heatwave":
+                payoutAmount = 800.00; // 1 day reduced hours
+                validationMessage = "Govt Heatwave Alert active. Compensating for mandatory offline cooling hours.";
+                break;
+            case "Unplanned Curfew":
+                payoutAmount = 2500.00; // 3 days lost wages
+                validationMessage = "Zone 4 locked down. Compensating for total inability to access pickup locations.";
+                break;
+            default:
+                return res.status(400).json({ error: "Invalid trigger event" });
+        }
+
+        // Save to Database
         await pool.query(
             'INSERT INTO claims (partner_id, trigger_event, payout_amount) VALUES ($1, $2, $3)',
             [partner_id, event_type, payoutAmount]
         );
-        res.json({ message: "Parametric Trigger Activated. Instant Payout Initiated.", amount: payoutAmount });
+
+        res.json({ 
+            message: `Parametric Trigger Activated: ${event_type}`, 
+            amount: payoutAmount,
+            details: validationMessage
+        });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
