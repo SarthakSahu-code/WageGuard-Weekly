@@ -62,6 +62,8 @@ uvicorn main:app --reload --port 8000
 Start the Express server on Port 5000:
 ```bash
 cd backend
+sudo service postgresql start
+node initDb.js
 node server.js
 ```
 ### 4. The React Frontend
