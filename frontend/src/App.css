@@ -6,9 +6,9 @@ body {
 
 .app-wrapper {
   min-height: 100vh;
-  /* Premium dark city/rider background with a dark blue overlay for readability */
-  background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.95)), 
-              url('https://images.unsplash.com/photo-1617868186608-87ae5c6f622c?q=80&w=2000&auto=format&fit=crop') center/cover fixed;
+  /* Premium dark overlay + City/Delivery Rider Background */
+  background: linear-gradient(rgba(15, 23, 42, 0.80), rgba(15, 23, 42, 0.95)), 
+              url('https://images.unsplash.com/photo-1616422285623-13ff0162193c?auto=format&fit=crop&q=80&w=2000') center/cover fixed;
   display: flex;
   justify-content: center;
   align-items: center;
