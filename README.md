@@ -34,9 +34,42 @@ To calculate dynamic weekly premiums and detect fraud, we are moving beyond basi
  * Interpretability as a Feature: In enterprise insurance, "black box" AI is a regulatory liability. Our interpretable architecture ensures that every dynamic pricing adjustment can be easily explained and audited.
  * Intelligent Fraud Detection: The AI cross-references incoming claims with historical data to flag delivery-specific fraud, such as GPS spoofing or fabricated weather claims, preventing duplicate or invalid payouts.
 
-**Tech Stack & Development Plan**
-Our architecture is designed for scale and rapid feature deployment:
- * Frontend: Mobile-Responsive Web (React / HTML-CSS-JS)
- * Backend: Node.js (Express) for robust API handling and real-time trigger monitoring.
- * Database: PostgreSQL for structuring relational data, handling user ledgers, and maintaining immutable audit trails of parametric events.
- * AI/ML Logic: Python-based predictive risk modeling using open-source libraries.
+## Technical Architecture
+WageGuard operates on a robust, multi-service cloud architecture designed for scalability:
+1. **Frontend (React + Vite):** A modern, responsive dashboard for onboarding riders and simulating parametric triggers.
+2. **Backend (Node.js + Express):** The central orchestrator that securely handles API routing and database connections.
+3. **AI Pricing Engine (Python + FastAPI):** A microservice that ingests rider data and environmental variables to output dynamic, interpretable weekly premiums.
+4. **Database (PostgreSQL):** A relational database maintaining an immutable audit trail of `partners`, active `policies`, and automated `claims`.
+
+## Running the Project Locally (Codespaces Environment)
+
+This project is optimized for GitHub Codespaces. To spin up the full architecture, follow these steps in separate terminal tabs:
+
+### 1. The Database (PostgreSQL)
+Ensure PostgreSQL is installed and the `postgres` user is set up. Initialize the schema:
+```bash
+cd backend
+node initDb.js
+```
+### 2. The AI Microservice (Python/FastAPI)
+Activate the virtual environment and start the pricing engine on Port 8000:
+```bash
+cd ml-service
+source venv/bin/activate
+uvicorn main:app --reload --port 8000
+```
+### 3. The Node.js Backend
+Start the Express server on Port 5000:
+```bash
+cd backend
+node server.js
+```
+### 4. The React Frontend
+Install dependencies and start the Vite development server on Port 5173:
+```bash
+cd frontend
+npm install axios
+npm run dev
+```
+
+(Note: If running in GitHub Codespaces, ensure all forwarded ports [5000, 5173, 8000] are set to Public visibility in the Ports tab to prevent CORS policy blocks).
